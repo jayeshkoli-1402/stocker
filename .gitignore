@@ -1,0 +1,25 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv/
+env/
+venv/
+
+# IDE/editor
+.vscode/
+.idea/
+
+# OS noise
+*.DS_Store
+Thumbs.db
+
+# Data / artifacts
+*.sqlite3
+*.db
+*.log
+/staticfiles/
+/instance/

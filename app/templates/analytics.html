@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - {{ symbol }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body class="page">
+    <header class="top-bar">
+        <div class="brand">
+            <div class="dot"></div>
+            <span>Stocker</span>
+        </div>
+        <div class="top-actions">
+            <a class="ghost" href="{{ url_for('route.home') }}">Back to dashboard</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-card card">
+            <div>
+                <p class="eyebrow">Analytics</p>
+                <h1>{{ symbol }}</h1>
+                <p class="muted">One-year close prices, INR</p>
+                <div class="chip-row">
+                    <span class="pill">1Y history</span>
+                    <span class="pill">Matplotlib chart</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="history-wrap">
+            <div class="card history-card">
+                <div class="card-title-row">
+                    <h3>Daily Closes</h3>
+                    <span class="badge">Scrollable</span>
+                </div>
+                <div class="scroll-box">
+                    {% for i in range(1, length) %}
+                    <div class="row">
+                        <span class="date">{{ result[i][0] }}</span>
+                        <span class="price">&#8377; {{ "%.2f"|format(result[i][1]) }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <p class="helper">Starting from the earliest point in the 1Y window.</p>
+            </div>
+
+            <div class="card chart-card">
+                <div class="card-title-row">
+                    <h3>Price Movement</h3>
+                    <span class="badge">Line</span>
+                </div>
+                <img src="data:image/png;base64,{{ mc_graph }}" alt="Line graph of {{ symbol }} closing prices over the last year">
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocker - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body class="page">
+    <header class="top-bar">
+        <div class="brand">
+            <div class="dot"></div>
+            <span>Stocker</span>
+        </div>
+        <div class="top-actions">
+            <a class="ghost" href="#top-list">Top 10</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-card card">
+            <div>
+                <p class="eyebrow">Most Valuable</p>
+                <h1>{{ top_stock["name"] }}</h1>
+                <p class="muted">Symbol | {{ top_stock["symbol"] }}</p>
+                <p class="metric">&#8377; {{ "{:,.0f}".format(top_stock["marketcap"] or 0) }}</p>
+                <div class="chip-row">
+                    <span class="pill">Live snapshot</span>
+                    <span class="pill">Market cap focus</span>
+                </div>
+            </div>
+
+            <div class="selector">
+                <label for="stockSelect">Jump to analytics</label>
+                <div class="select-wrap">
+                    <select id="stockSelect" onchange="if (this.value) { window.location = this.value; }">
+                        <option value="">Choose a company</option>
+                        <option value="/stock/reliance">Reliance Industries Ltd</option>
+                        <option value="/stock/tcs">Tata Consultancy Services (TCS)</option>
+                        <option value="/stock/hdfc">HDFC Bank</option>
+                        <option value="/stock/infosys">Infosys</option>
+                        <option value="/stock/icici">ICICI Bank</option>
+                        <option value="/stock/hul">Hindustan Unilever (HUL)</option>
+                        <option value="/stock/itc">ITC Limited</option>
+                        <option value="/stock/lt">Larsen &amp; Toubro (L&amp;T)</option>
+                        <option value="/stock/sbi">State Bank of India (SBI)</option>
+                        <option value="/stock/airtel">Bharti Airtel</option>
+                    </select>
+                </div>
+                <p class="helper">Pick one to open its 1Y price view.</p>
+            </div>
+        </section>
+
+        <div class="section-head">
+            <h2>Market Cap Charts</h2>
+            <p>Pie + bar, refreshed when the page loads</p>
+        </div>
+        <section class="charts-grid">
+            <div class="card chart-card">
+                <div class="card-title-row">
+                    <h3>Share of Market Cap</h3>
+                    <span class="badge">Pie</span>
+                </div>
+                <img src="data:image/png;base64,{{ mc_pie }}" alt="Market cap pie chart for top Indian stocks">
+            </div>
+            <div class="card chart-card">
+                <div class="card-title-row">
+                    <h3>Absolute Market Cap</h3>
+                    <span class="badge">Bar</span>
+                </div>
+                <img src="data:image/png;base64,{{ mc_bar }}" alt="Market cap bar chart for top Indian stocks">
+            </div>
+        </section>
+
+        <div class="section-head" id="top-list">
+            <h2>Top 10 Indian Stocks</h2>
+            <p class="muted">Quick glance at names and tickers</p>
+        </div>
+        <section class="stock-grid">
+            {% for i in range(0, 10) %}
+            <div class="card stock-card">
+                <span class="rank">#{{ i + 1 }}</span>
+                <div class="title">{{ names[i] }}</div>
+                <div class="ticker">{{ symbols[i] }}</div>
+            </div>
+            {% endfor %}
+        </section>
+
+        <footer>Charts render from the latest fetch when you load the page.</footer>
+    </main>
+</body>
+
+</html>
